@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE form-validation PUBLIC "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN" "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+     <formset>
+        
+        <form name="loginUserVo">
+        	<field property="phone" depends="required">
+        		<arg0 key="customer.phone" />
+        	</field>
+        	<field property="password" depends="required">
+        		<arg0 key="customer.password" />
+        	</field>
+        </form>
+        
+        <form name="registerUserVo">
+        	<field property="phone" depends="required">
+        		<arg0 key="customer.phone" />
+        	</field>
+        	<field property="password" depends="required">
+        		<arg0 key="customer.password" />
+        	</field>
+        	<field property="verificationCode" depends="required">
+        		<arg0 key="customer.verificationCode" />
+        	</field>
+        	<field property="regionCode" depends="required">
+        		<arg0 key="customer.regionCode" />
+        	</field>
+        </form>
+        
+        <form name="resetPasswordVo">
+        	<field property="phone" depends="required">
+        		<arg0 key="customer.phone" />
+        	</field>
+        	<field property="password" depends="required">
+        		<arg0 key="customer.password" />
+        	</field>
+        	<field property="verificationCode" depends="required">
+        		<arg0 key="customer.verificationCode" />
+        	</field>
+        </form>
+        
+        <form name="version">
+        	<field property="packageName" depends="required">
+        		<arg0 key="version.packageName" />
+        	</field>
+        	<field property="versionCode" depends="required">
+        		<arg0 key="version.versionCode" />
+        	</field>
+        	<field property="platform" depends="required">
+        		<arg0 key="version.platform" />
+        	</field>
+        </form>
+        
+  </formset>
+</form-validation>

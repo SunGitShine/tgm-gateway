@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- <aop:aspectj-autoproxy proxy-target-class="true"/> -->
+
+	<aop:config>
+		<aop:pointcut id="enterExecutionTimeProfilerMethod" expression="execution(* com.juma.tgm..service..*(..))
+  														or execution(* com.juma.tgm..object..*(..))"/>
+		<aop:aspect id="enterExecutionTimeProfilerAop" ref="enterExecutionTimeProfilerAop" order="0">
+			<aop:around method="timerProfiler" pointcut-ref="enterExecutionTimeProfilerMethod"/>
+		</aop:aspect>
+	</aop:config>
+
+
+	<aop:config>
+		<aop:pointcut id="needValidatorControllerMethod" expression="execution(* com.juma.tgm..controller..*(*,org.springframework.validation.BindingResult,..))"/>
+
+		<aop:pointcut id="controllerMethodEcoUser" expression="execution(* com.juma.tgm..controller..*(..,com.juma.auth.user.domain.LoginEcoUser))"/>
+
+		<aop:pointcut id="controllerMethodEmployee" expression="execution(* com.juma.tgm..controller..*(..,com.juma.auth.employee.domain.LoginEmployee))"/>
+
+		<aop:aspect id="validatorAop" ref="controllerValidationAop" order="99">
+			<aop:before method="validate" pointcut-ref="needValidatorControllerMethod"/>
+		</aop:aspect>
+		<aop:aspect id="methodAuthEcoUserAop" ref="controllerCheckPermissionsEcoUserAop" order="1">
+			<aop:around method="controllerMethodAuth" pointcut-ref="controllerMethodEcoUser" />
+		</aop:aspect>
+
+
+		<aop:aspect id="methodAuthEmployeeAop" ref="controllerCheckPermissionsEmployeeAop" order="1">
+			<aop:around method="controllerMethodAuth" pointcut-ref="controllerMethodEmployee" />
+		</aop:aspect>
+	</aop:config>
+
+	<!-- 租户定制需求拦截 -->
+	<aop:config>
+		<aop:pointcut id="serviceCustomizeDistribute" expression="execution(* com.juma.tgm..service.*.*(..))
+                and !execution(* com.juma.auth.tenant.service.TenantService.findTenant(java.lang.String))
+              and !execution(* com.juma.auth.authority.service.AuthorityService.loadLoginUser(java.lang.String))"/>
+		<aop:aspect id="serviceCustomizeDistributeAop" ref="serviceCustomizeDistributeAop" order="1">
+			<aop:around method="distribute" pointcut-ref="serviceCustomizeDistribute"/>
+		</aop:aspect>
+	</aop:config>
+
+</beans>

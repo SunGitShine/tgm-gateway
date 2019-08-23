@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<display-name>tgm-gateway</display-name>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath*:/META-INF/spring/spring-*-beans.xml,
+			classpath*:/META-INF/spring/spring-*-aop.xml,
+			classpath*:/META-INF/dubbo/dubbo-*.xml
+		</param-value>
+	</context-param>
+	<context-param>
+		<param-name>logbackConfigLocation</param-name>
+		<param-value>WEB-INF/classes/logback.xml</param-value>
+	</context-param>
+	
+	<!--Spring的ApplicationContext 载入 -->
+	<listener>
+		<listener-class>
+   			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	
+	<!-- Spring 刷新Introspector防止内存泄露 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	
+	<!-- <filter>
+		<filter-name>session</filter-name>
+		<filter-class>com.giants.cache.core.session.GiantsSessionFilter</filter-class>
+		<init-param>
+			<param-name>sessionTimeout</param-name>
+			<param-value>1800</param-value>
+		</init-param>
+	</filter> -->
+	
+	<!-- <filter-mapping>
+		<filter-name>session</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping> -->
+	
+	<filter>
+		<filter-name>webFilter</filter-name>
+        <filter-class>com.giants.web.filter.WebFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>webFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+	
+	<!-- <filter>
+		<filter-name>ipAddress</filter-name>
+		<filter-class>com.juma.fangyibao.authority.filter.IpAddressFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>ipAddress</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping> -->
+
+ 	<servlet>
+     	<servlet-name>dispatcher</servlet-name>     
+     	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+     	<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				classpath*:/META-INF/spring/spring-mvc.xml
+			</param-value>
+		</init-param>    
+     	<load-on-startup>1</load-on-startup>     
+ 	</servlet> 	
+ 	 
+ 	<servlet-mapping>     
+     	<servlet-name>dispatcher</servlet-name>
+     	<url-pattern>*.html</url-pattern>     
+ 	</servlet-mapping>
+ 	    	 	
+ 	<!-- Spring过滤中文字符集 -->  
+    <filter>  
+        <filter-name>EncodingFilter</filter-name>  
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  
+        <init-param>  
+            <param-name>encoding</param-name>  
+            <param-value>UTF-8</param-value>  
+        </init-param>  
+        <init-param>  
+            <param-name>forceEncoding</param-name>  
+            <param-value>true</param-value>  
+        </init-param>  
+    </filter>   
+    <filter-mapping>  
+        <filter-name>EncodingFilter</filter-name>  
+        <url-pattern>/*</url-pattern>  
+    </filter-mapping>
+        
+    <filter>
+	   <filter-name>chainTraceEntranceFilter</filter-name>
+	   <filter-class>com.giants.dubbo.chain.trace.zipkin.filter.ChainTraceEntranceFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+	   <filter-name>chainTraceEntranceFilter</filter-name>
+	   <url-pattern>*.html</url-pattern>
+	</filter-mapping>
+    
+  <!--   <error-page>
+    	<error-code>404</error-code>
+    	<location>/forward/error.html</location>
+    </error-page>
+    
+     <error-page>
+    	<error-code>500</error-code>
+    	<location>/forward/error.html</location>
+    </error-page>
+    
+    <error-page>
+    	<exception-type>com.giants.common.exception.NotAuthorityException</exception-type>
+    	<location>/template/not_authority.htm</location>
+    </error-page>
+    
+    <error-page>
+    	<exception-type>com.giants.common.exception.NotLoggedInException</exception-type>
+    	<location>/template/not_logged_in.htm</location>
+    </error-page>    -->
+    	
+ 	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+</web-app>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateConfig name="official-template">
+
+	<widget name="validate-script" widgetFile="widget/validate-script.tpl"/>
+	
+	<propertyResource value="app.properties"/>
+	<propertyResource value="smartTruck.properties"/>
+	<propertyResource value="jumaApp.properties"/>
+	<propertyResource value="wechat.properties"/>
+	<propertyResource value="luodipeisj.properties"/>
+	<propertyResource value="luodipeihz.properties"/>
+	<propertyResource value="yuehaosj.properties"/>
+	<propertyResource value="peisongsj.properties"/>
+	<propertyResource value="jumaDriver.properties"/>
+	<propertyResource value="jumaDriverWx.properties"/>
+
+	<urlVersion rules=".*\.(js|css|jpg|gif|png|JS|CSS|JPG|GIF|PNG)">
+		<urlVersionRules rules=".*\/app\/.*" propertyName="app.template.version"/>
+		<urlVersionRules rules=".*\/smartTruck\/.*" propertyName="smartTruck.template.version"/>
+		<urlVersionRules rules=".*\/jumaApp\/.*" propertyName="jumaApp.template.version"/>
+		<urlVersionRules rules=".*\/wechat\/.*" propertyName="wechat.template.version"/>
+		<urlVersionRules rules=".*\/luodipeisj\/.*" propertyName="luodipeisj.template.version"/>
+		<urlVersionRules rules=".*\/luodipeihz\/.*" propertyName="luodipeihz.template.version"/>
+		<urlVersionRules rules=".*\/peisongsj\/.*" propertyName="peisongsj.template.version"/>
+		<urlVersionRules rules=".*\/yuehaosj\/.*" propertyName="yuehaosj.template.version"/>
+		<urlVersionRules rules=".*\/jumaDriver\/.*" propertyName="jumaDriver.template.version"/>
+		<urlVersionRules rules=".*\/jumaDriverWx\/.*" propertyName="jumaDriverWx.template.version"/>
+	</urlVersion>
+	
+	<!-- <layout name="main" layoutFile="inc/main.html" rules="(?!.*(dialog|tab)).*" excludeNames="login.html"/> -->
+		
+	<function name="validateScript" tagHandlerClass="com.juma.tgm.gateway.web.decorator.function.ValidateScriptFunctionHandler">
+		<parameter name="formBean" type="java.lang.String" allowNull="false"/>
+		<parameter name="formName" type="java.lang.String"/>
+		<parameter name="errorContainer" type="java.lang.String"/>
+	</function>
+	
+	<function name="getGlobleConfig" tagHandlerClass="com.juma.tgm.gateway.web.decorator.function.GetGlobleConfigFunctionHandler">
+		<parameter name="paramKey" type="java.lang.String" allowNull="false"/>
+	</function>
+	
+	<function name="getFrontConfig" tagHandlerClass="com.juma.tgm.gateway.web.decorator.function.WaybillFrontConfigFunctionHandler">
+		<parameter name="paramKey" type="java.lang.Integer" allowNull="false"/>
+	</function>
+	
+    <urlDomainName whetherAddDomainName="true" rules=".*\.(js|css|jpg|gif|png|JS|CSS|JPG|GIF|PNG)">
+        <urlDomainNameRules themePath="smartTruck">
+            <domainName value="static.lovedriver.jumaps.com"/>
+        </urlDomainNameRules>
+    </urlDomainName>
+</templateConfig>

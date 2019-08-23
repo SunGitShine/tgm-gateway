@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://code.alibabatech.com/schema/dubbo
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+	<dubbo:application name="tgm-gateway"/>
+	<dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}" />
+    <dubbo:consumer check="false"  timeout="10000"  retries="0"  version="${dubbo.reference.tgm.version}"/>
+    <!-- 用户中心 -->
+    <dubbo:reference id="distributedFileStorageService"  interface="com.juma.common.storage.service.DistributedFileStorageService"  version="${dubbo.reference.auth.version}"/>
+    <dubbo:reference id="regionService"  interface="com.juma.conf.service.RegionService"  version="${dubbo.reference.auth.version}"/>
+    <dubbo:reference id="confParamService" interface="com.juma.conf.service.ConfParamService" version="${dubbo.reference.auth.version}"/>
+    <dubbo:reference id="authorityService" interface="com.juma.auth.authority.service.AuthorityService" version="${dubbo.reference.auth.version}"/>
+    <dubbo:reference id="userService" interface="com.juma.auth.user.service.UserService" version="${dubbo.reference.auth.version}"/>
+    <dubbo:reference id="ecoUserService" interface="com.juma.auth.user.service.EcoUserService" version="${dubbo.reference.auth.version}"/>
+    <dubbo:reference id="operationLogService" interface="com.juma.log.service.OperationLogService" version="${dubbo.reference.auth.version}"/>
+    <dubbo:reference id="permissionService" interface="com.juma.auth.conf.service.PermissionService" version="${dubbo.reference.auth.version}"/>
+    <dubbo:reference id="encryptionService" interface="com.juma.auth.conf.service.EncryptionService" version="${dubbo.reference.auth.version}"/>
+    <dubbo:reference id="employeeService" interface="com.juma.auth.employee.service.EmployeeService" version="${dubbo.reference.auth.version}"/>
+    <dubbo:reference id="userVerificationService" interface="com.juma.auth.user.service.UserVerificationService" version="${dubbo.reference.auth.version}"/>
+    <dubbo:reference id="tenantService" interface="com.juma.auth.tenant.service.TenantService" version="${dubbo.reference.auth.version}"/>
+    <dubbo:reference id="departmentService" interface="com.juma.auth.employee.service.DepartmentService" version="${dubbo.reference.auth.version}"/>
+
+    <!-- 消息中心 -->
+    <dubbo:reference id="messageServiceProvider"  interface="com.juma.message.gateway.service.MessageServiceProvider"  version="${dubbo.reference.message.version}"/>
+    <!-- CMS -->
+    <dubbo:reference id="chanelService" interface="com.juma.cms.wx.service.ChanelService" version="${dubbo.reference.cms.version}"/>
+    <!-- AMS -->
+    <dubbo:reference id="deviceBindService" interface="com.juma.server.vm.service.vehicle.DeviceBindService" version="${dubbo.reference.vm.version}"/>
+    <dubbo:reference id="amsServiceV2" interface="com.juma.server.vm.service.vehicle.AmsServiceV2" version="${dubbo.reference.vm.version}"/>
+    <!-- 在途监控 -->
+    <dubbo:reference id="realTimePositionService" interface="com.juma.monitor.service.RealTimePositionService" version="${dubbo.reference.monitor.version}"/>
+    <dubbo:reference id="deviceFilterService" interface="com.juma.monitor.service.DeviceFilterService" version="${dubbo.reference.monitor.version}"/>
+    <dubbo:reference id="temperatureServer" interface="com.juma.monitor.support.service.TemperatureServer" version="${dubbo.reference.monitor.version}"/>
+    <!-- TMS -->
+    <dubbo:reference id="waybillQueryService" interface="com.juma.tgm.waybill.service.WaybillQueryService" />
+    <dubbo:reference id="waybillAutoMatchService" interface="com.juma.tgm.waybill.service.WaybillAutoMatchService" timeout="100000"/>
+    <dubbo:reference id="waybillService" interface="com.juma.tgm.waybill.service.WaybillService" timeout="100000"/>
+    <dubbo:reference id="waybillReceiveAddressService" interface="com.juma.tgm.waybill.service.WaybillReceiveAddressService" timeout="100000"/>
+    <dubbo:reference id="driverService"  interface="com.juma.tgm.driver.service.DriverService" />
+    <dubbo:reference id="truckService" interface="com.juma.tgm.truck.service.TruckService"  />
+    <dubbo:reference id="truckTypeService"  interface="com.juma.tgm.truck.service.TruckTypeService" />
+    <dubbo:reference id="truckFleetService"  interface="com.juma.tgm.truck.service.TruckFleetService" />
+    <dubbo:reference id="truckFleetTruckService"  interface="com.juma.tgm.truck.service.TruckFleetTruckService" />
+    <dubbo:reference id="truckRequireService"  interface="com.juma.tgm.waybill.service.TruckRequireService" />
+    
+    <dubbo:reference id="additionalFunctionService"  interface="com.juma.tgm.truck.service.AdditionalFunctionService" />
+    <dubbo:reference id="waybillNoticeService"  interface="com.juma.tgm.waybill.service.WaybillNoticeService" />
+    <dubbo:reference id="gaoDeMapService" interface="com.juma.tgm.waybill.service.GaoDeMapService" />
+    <dubbo:reference id="versionService" interface="com.juma.tgm.version.service.VersionService" />
+    <dubbo:reference id="addressHistoryService"  interface="com.juma.tgm.waybill.service.AddressHistoryService" />
+    <dubbo:reference id="contactHistoryService"  interface="com.juma.tgm.waybill.service.ContactHistoryService" />
+    <dubbo:reference id="customerInfoService"  interface="com.juma.tgm.crm.service.CustomerInfoService" />
+    <dubbo:reference id="basicTruckTypeService"  interface="com.juma.tgm.basicTruckType.service.BasicTruckTypeService" />
+    <dubbo:reference id="cityManageService" interface="com.juma.tgm.cityManage.service.CityManageService"/>
+    <dubbo:reference id="importantNoticeService" interface="com.juma.tgm.importantNotice.service.ImportantNoticeService"/>
+ 	<dubbo:reference id="confParamInfoService" interface="com.juma.tgm.basicTruckType.service.ConfParamInfoService"/>
+ 	<dubbo:reference id="waybillParamService" interface="com.juma.tgm.waybill.service.WaybillParamService" />
+ 	<dubbo:reference id="incomeStatisticsService" interface="com.juma.tgm.crm.service.IncomeStatisticsService" />
+ 	<dubbo:reference id="weixinService" interface="com.juma.tgm.weixin.service.WeixinService" />
+ 	<dubbo:reference id="truckTypeFreightService" interface="com.juma.tgm.truck.service.TruckTypeFreightService" />
+ 	<dubbo:reference id="waybillReportService" interface="com.juma.tgm.waybillReport.service.WaybillReportService" />
+ 	<dubbo:reference id="locationService" interface="com.juma.tgm.basicTruckType.service.LocationService" />
+ 	<dubbo:reference id="reportInfoService" interface="com.juma.tgm.reportInfo.service.ReportInfoService" />
+ 	<dubbo:reference id="reportInfoDetailService" interface="com.juma.tgm.reportInfo.service.ReportInfoDetailService" />
+ 	<dubbo:reference id="regionTgmService" interface="com.juma.tgm.region.service.RegionTgmService" />
+    <dubbo:reference id="deliveryPointSupplementService" interface="com.juma.tgm.waybill.service.DeliveryPointSupplementService" />
+    <dubbo:reference id="waybillCommonService" interface="com.juma.tgm.waybill.service.WaybillCommonService" />
+    <dubbo:reference id="vendorMappingService" interface="com.juma.tgm.vendor.service.VendorMappingService" />
+    <!-- 异步支持 -->
+    <dubbo:reference id="waybillCommonServiceAsync" interface="com.juma.tgm.waybill.service.WaybillCommonService" >
+        <dubbo:method name="getGaodeMapInfo" async="true"/>
+    </dubbo:reference>
+
+    <!--创建用户和业务数据-->
+    <dubbo:reference id="tgmUserCenterService" interface="com.juma.tgm.authority.service.TgmUserCenterService"/>
+    <!--客户经理-->
+    <dubbo:reference id="customerManagerService" interface="com.juma.tgm.customer.service.CustomerManagerService" timeout="120000"/>
+    <dubbo:reference id="waybillOperateTrackService" interface="com.juma.tgm.waybill.service.WaybillOperateTrackService"/>
+    <dubbo:reference id="waybillAutoFenceServicve" interface="com.juma.tgm.waybill.service.WaybillAutoFenceServicve"/>
+    <!--客户经理代办事项-->
+    <dubbo:reference id="managerScheduleService" interface="com.juma.tgm.customerManager.service.ManagerScheduleService"/>
+    <!--运单取货地址-->
+    <dubbo:reference id="waybillDeliveryAddressService" interface="com.juma.tgm.waybill.service.WaybillDeliveryAddressService"/>
+    
+    
+    <dubbo:reference id="userRouteService" interface="com.juma.tgm.user.service.UserRouteService"/>
+    <!-- 图片上传接口 -->
+    <dubbo:reference id="imageUploadManageService" interface="com.juma.tgm.imageUploadManage.service.ImageUploadManageService"/>
+    <dubbo:reference id="receiptManageService" interface="com.juma.tgm.receiptManage.service.ReceiptManageService"/>
+
+    <dubbo:reference id="costReimbursedService" interface="com.juma.tgm.costReimbursed.service.CostReimbursedService"/>
+
+    <dubbo:reference id="additionalFunctionFreightService" interface="com.juma.tgm.truck.service.AdditionalFunctionFreightService"/>
+
+	<!-- cron任务 -->
+    <dubbo:reference id="cronjobService" interface="com.juma.tgm.cron.service.CronjobService" timeout="100000"/>
+    <dubbo:reference id="fixedDemandService" interface="com.juma.tgm.customerManager.service.FixedDemandService"/>
+
+    <!--业务区域-->
+    <dubbo:reference id="businessAreaService" interface="com.juma.auth.conf.service.BusinessAreaService" version="${dubbo.reference.auth.version}"/>
+    <dubbo:reference id="tgmBusinessAreaService" interface="com.juma.tgm.businessArea.service.TgmBusinessAreaService"/>
+    <!-- 项目管理 -->
+    <dubbo:reference id="projectService" interface="com.juma.tgm.project.service.ProjectService"/>
+    <dubbo:reference id="roadMapService" interface="com.juma.tgm.project.service.RoadMapService"/>
+    <dubbo:reference id="roadMapPriceRuleService" interface="com.juma.tgm.project.service.RoadMapPriceRuleService"/>
+    <dubbo:reference id="roadMapSrcAdressService" interface="com.juma.tgm.project.service.RoadMapSrcAdressService"/>
+    <dubbo:reference id="roadMapDestAdressService" interface="com.juma.tgm.project.service.RoadMapDestAdressService"/>
+    <dubbo:reference id="projectProcessService" interface="com.juma.tgm.project.service.ProjectProcessService"/>
+    <!--计费方式-->
+    <!--<dubbo:reference id="valuationWayService" interface="com.juma.tgm.project.service.ValuationWayService"/>-->
+    <!--税率接口-->
+    <dubbo:reference interface="com.juma.tgm.waybill.service.TaxRateService" id="taxRateService"/>
+    <!-- 项目下单接口 -->
+    <dubbo:reference interface="com.juma.tgm.filiale.service.FilialeBillService" id="filialeBillService"/>
+    <dubbo:reference interface="com.juma.tgm.waybill.service.WaybillCronService" id="waybillCronService"/>
+
+    <!--落地配运单接口-->
+    <dubbo:reference interface="com.juma.tgm.scatteredWaybill.service.ScatteredWaybillService" id="scatteredWaybillService" timeout="40000" retries="1"/>
+    <!--异步支持-->
+    <dubbo:reference interface="com.juma.tgm.scatteredWaybill.service.ScatteredWaybillService" id="scatteredWaybillServiceAsync">
+        <dubbo:method name="isAtFenceArea" async="true"/>
+    </dubbo:reference>
+
+    <dubbo:reference interface="com.juma.tgm.landing.waybill.service.DispatchingTruckService" id="dispatchingTruckService"/>
+    <!-- 已开通城市配置 -->
+    <dubbo:reference interface="com.juma.tgm.configure.service.ServiceConfService" id="serviceConfService"/>
+
+	<dubbo:reference id="freightFactorService" interface="com.juma.tgm.configure.service.FreightFactorService"/>
+	<!-- SOP -->
+	<dubbo:reference id="sopService" interface="com.juma.tgm.sop.service.SopService"/>
+	<!--温度监控-->
+    <dubbo:reference id="temperatureAlertService"  interface="com.juma.tgm.redis.service.TemperatureAlertService"/>
+
+    <!--租户定制业务<<<<<-->
+    <!--希地<<-->
+    <dubbo:reference id="xidiWaybillService" interface="com.juma.tgm.waybill.service.customize.xidi.XidiWaybillService"/>
+    <!-->>希地-->
+    <!--jumaPs<<-->
+    <dubbo:reference id="jumaPsWaybillService" interface="com.juma.tgm.waybill.service.customize.jumaPs.JumaPsWaybillService"/>
+    <!-->>jumaPs-->
+    <!-->>>>>租户定制业务-->
+
+    <dubbo:reference id="transportReportService"  interface="com.juma.tgm.transportReport.service.TransportReportService"/>
+    <dubbo:reference id="receiptFreightFeeService" interface="com.juma.tgm.fms.service.v2.ReceiptFreightFeeService" />
+
+    <!--定时下单任务接口-->
+    <dubbo:reference id="task4WaybillService"  interface="com.juma.tgm.customerManager.service.Task4WaybillService"/>
+    <!--定时下单任务模板-->
+    <dubbo:reference id="taskWaybillTemplateService"  interface="com.juma.tgm.customerManager.service.TaskWaybillTemplateService"/>
+    <!--任务执行报告-->
+    <dubbo:reference id="task4WaybillReportService"  interface="com.juma.tgm.customerManager.service.Task4WaybillReportService"/>
+    <dubbo:reference id="crm4TmsService"  interface="com.juma.crm.support.service.Crm4TmsService" version="${dubbo.reference.crm.version}"/>
+
+    <dubbo:reference id="operateLogService" interface="com.juma.tgm.operateLog.service.OperateLogService">
+        <dubbo:method name="insertByDubboAsync" async="true" return="false"></dubbo:method>
+    </dubbo:reference>
+
+    <dubbo:reference id="vmsCommonService"  interface="com.juma.tgm.tools.service.VmsCommonService"/>
+    <dubbo:reference id="authCommonService"  interface="com.juma.tgm.tools.service.AuthCommonService"/>
+
+    <dubbo:reference id="waybillTrackService"  interface="com.juma.tgm.waybill.service.WaybillTrackService">
+        <dubbo:method name="syncChangeActualMileage" async="true" return="false"></dubbo:method>
+    </dubbo:reference>
+
+    <dubbo:reference id="taskFacadeService" interface="com.juma.tgm.task.service.TaskFacadeService">
+        <dubbo:method name="changeVendor" retries="0" timeout="20000"/>
+        <dubbo:method name="inviteVendor" retries="0" timeout="20000"/>
+    </dubbo:reference>
+
+    <dubbo:reference id="selectService" interface="com.juma.tgm.select.service.SelectService"></dubbo:reference>
+    <dubbo:reference id="taskScheduledService" interface="com.juma.tgm.task.service.TaskScheduledService"></dubbo:reference>
+</beans>
